@@ -1,7 +1,7 @@
-# Title     : Correlazioni
-# Objective : Applico articolo di Gian
-# Created by: davide
-# Created on: 05/06/2020
+# Title     : Clustering
+# Objective : Clustering
+# Created by: david
+# Created on: 06/06/2020
 
 library(GGally)
 library(rms)
@@ -19,40 +19,42 @@ database <- read.table('statoccupazionali.txt',header=T)
 names(database)
 
 #----- Dissimilarity Matrix -----#
-datipuliti <- PuliziaNA(database, c(1, 5, 7, 9, 22, 23, 24))
-dati <- SottoDF(datipuliti, c(1, 5, 7, 9, 22, 23, 24))
+
+dati <- SottoDF(database, c(1, 7, 22, 23, 24))
 
 for (i in 1:dim(dati)[1]) {
-  if (dati[[4]][[i]]==1) {dati[[4]][[i]] <- 'Finanza'}
-  if (dati[[4]][[i]]==2) {dati[[4]][[i]] <- 'Statistica'}
-  if (dati[[4]][[i]]==3) {dati[[4]][[i]] <- 'Calcolo'}
+  if (dati[[2]][[i]]=='Prelaurea') {dati[[2]][[i]] <- '1 Tempo'}
+  if (dati[[2]][[i]]=='Immediato') {dati[[2]][[i]] <- '2 Tempo'}
+  if (dati[[2]][[i]]=='Veloce') {dati[[2]][[i]] <- '3 Tempo'}
+  if (dati[[2]][[i]]=='Medio') {dati[[2]][[i]] <- '4 Tempo'}
+  if (dati[[2]][[i]]=='Lungo') {dati[[2]][[i]] <- '5 Tempo'}
 }
 
 for (i in 1:dim(dati)[1]) {
-  if (dati[[5]][[i]]==1) {dati[[5]][[i]] <- 'Lavoro Male'}
-  if (dati[[5]][[i]]==2) {dati[[5]][[i]] <- 'Lavoro Malino'}
-  if (dati[[5]][[i]]==3) {dati[[5]][[i]] <- 'Lavoro Ok'}
-  if (dati[[5]][[i]]==4) {dati[[5]][[i]] <- 'Lavoro Benino'}
-  if (dati[[5]][[i]]==5) {dati[[5]][[i]] <- 'Lavoro Bene'}
+  if (dati[[3]][[i]]==1) {dati[[3]][[i]] <- '1 Lavoro'}
+  if (dati[[3]][[i]]==2) {dati[[3]][[i]] <- '2 Lavoro'}
+  if (dati[[3]][[i]]==3) {dati[[3]][[i]] <- '3 Lavoro'}
+  if (dati[[3]][[i]]==4) {dati[[3]][[i]] <- '4 Lavoro'}
+  if (dati[[3]][[i]]==5) {dati[[3]][[i]] <- '5 Lavoro'}
 }
 
 for (i in 1:dim(dati)[1]) {
-  if (dati[[6]][[i]]==1) {dati[[6]][[i]] <- 'Laurea Male'}
-  if (dati[[6]][[i]]==2) {dati[[6]][[i]] <- 'Laurea Malino'}
-  if (dati[[6]][[i]]==3) {dati[[6]][[i]] <- 'Laurea Ok'}
-  if (dati[[6]][[i]]==4) {dati[[6]][[i]] <- 'Laurea Benino'}
-  if (dati[[6]][[i]]==5) {dati[[6]][[i]] <- 'Laurea Bene'}
+  if (dati[[4]][[i]]==1) {dati[[4]][[i]] <- '1 Laurea'}
+  if (dati[[4]][[i]]==2) {dati[[4]][[i]] <- '2 Laurea'}
+  if (dati[[4]][[i]]==3) {dati[[4]][[i]] <- '3 Laurea'}
+  if (dati[[4]][[i]]==4) {dati[[4]][[i]] <- '4 Laurea'}
+  if (dati[[4]][[i]]==5) {dati[[4]][[i]] <- '5 Laurea'}
 }
 
 for (i in 1:dim(dati)[1]) {
-  if (dati[[7]][[i]]==1) {dati[[7]][[i]] <- 'Prep Male'}
-  if (dati[[7]][[i]]==2) {dati[[7]][[i]] <- 'Prep Malino'}
-  if (dati[[7]][[i]]==3) {dati[[7]][[i]] <- 'Prep Ok'}
-  if (dati[[7]][[i]]==4) {dati[[7]][[i]] <- 'Prep Benino'}
-  if (dati[[7]][[i]]==5) {dati[[7]][[i]] <- 'Prep Bene'}
+  if (dati[[5]][[i]]==1) {dati[[5]][[i]] <- '1 Prep'}
+  if (dati[[5]][[i]]==2) {dati[[5]][[i]] <- '2 Prep'}
+  if (dati[[5]][[i]]==3) {dati[[5]][[i]] <- '3 Prep'}
+  if (dati[[5]][[i]]==4) {dati[[5]][[i]] <- '4 Prep'}
+  if (dati[[5]][[i]]==5) {dati[[5]][[i]] <- '5 Prep'}
 }
 
-dati$Major <- factor ( dati$Major )
+#dati$Major <- factor ( dati$Major )
 dati$Soddisfazione_Lavorativa <- factor ( dati$Soddisfazione_Lavorativa )
 dati$Soddisfazione_Laurea <- factor ( dati$Soddisfazione_Laurea )
 dati$Soddisfazione_Preparazione <- factor ( dati$Soddisfazione_Preparazione )
@@ -61,7 +63,7 @@ dati$Tempo_PI <- factor ( dati$Tempo_PI )
 library(cluster)
 # to perform different types of hierarchical clustering
 # package functions used: daisy(), diana(), clusplot()
-gower.dist <- daisy(dati [ , c(2,3,4,5,6,7)], metric = c("gower"))
+gower.dist <- daisy(dati [ , c(2,3,4,5)], metric = c("gower"))
 #class(gower.dist)
 ## dissimilarity , dist
 
@@ -213,17 +215,16 @@ cust.long.p <- cust.long.q %>%
   group_by(clust.num, variable) %>%
   mutate(perc = count / sum(count)) %>%
   arrange(clust.num)
-heatmap.p <- ggplot(cust.long.p, aes(x = clust.num, y = factor(value, levels = c('Finanza','Statistica','Calcolo','Prelaurea','Immediato','Veloce','Medio','Lungo','5','5.5','6','6.5','7','8', 'Lavoro Male',
-                                                                                 'Lavoro Malino','Lavoro Ok','Lavoro Benino','Lavoro Bene', 'Laurea Malino','Laurea Ok','Laurea Benino','Laurea Bene',
-                                                                                   'Prep Male','Prep Malino','Prep Ok','Prep Benino','Prep Bene' ), ordered = T))) +
+heatmap.p <- ggplot(cust.long.p, aes(x = clust.num, y = factor(value, levels = c('1 Tempo','2 Tempo','3 Tempo','4 Tempo','5 Tempo', '1 Lavoro',
+                                                                                 '2 Lavoro','3 Lavoro','4 Lavoro','5 Lavoro', '2 Laurea','3 Laurea','4 Laurea','5 Laurea',
+                                                                                   '1 Prep','2 Prep','3 Prep','4 Prep','5 Prep' ), ordered = T))) +
 geom_tile(aes(fill = perc), alpha = 0.85)+
   labs(title = "Distribution of characteristics across clusters", x = "Cluster number", y = NULL) +
-  geom_hline(yintercept = 3.5) +
-  geom_hline(yintercept = 8.5) +
-  geom_hline(yintercept = 14.5) +
-  geom_hline(yintercept = 18.5) +
-  geom_hline(yintercept = 21.5) +
+  geom_hline(yintercept = 5.5) +
+  geom_hline(yintercept = 9.5) +
+  geom_hline(yintercept = 12.5) +
+  geom_hline(yintercept = 17.5) +
+  geom_hline(yintercept = 23.5) +
   geom_hline(yintercept = 26.5) +
   scale_fill_gradient2(low = "darkslategray1", mid = "yellow", high = "turquoise4")
 heatmap.p
-
