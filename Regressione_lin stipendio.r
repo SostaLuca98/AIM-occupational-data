@@ -63,3 +63,37 @@ mod1 = lm( (retnostage ^ lambdaopt[2] - 1)/lambdaopt[2] ~ database.Sesso+databas
 
 shapiro.test(mod1$residuals)
 #Otteniamo un 1% sudato sudato... niente sembrava bello ma mi sa che non funziona :((
+
+#In realtà se osservo la likelihood della boxcox vedo che anche lambda=0 non è male, qualla eventualmente sarebbe interpretabile!!! Proviamo
+mod2 = lm( log(retnostage) ~ database.Sesso+database.Voto_LT+majorses+votoses+database.Luogo_PI+database.Tempo_PI+database.Major,data=clndata)
+shapiro.test(mod2$residuals)
+#dai sempre 1%... lo teniamo?
+#perfavore
+#susususu
+#beh io vedo di visualizzare un po' di cose
+qqnorm(mod2$residuals)
+qqline(mod2$residuals)
+#aaah orribile
+
+#residui e basta
+plot(mod2$residuals)
+#res standardizzati con la varianza campionaria
+#plot(mod2$residuals/mod2$sigma)
+#non me lo calcola per via degli NA probabilm
+#sounds veeery nice
+plot(mod2$fitted.values,mod$residuals)
+#still ugly :(
+#però però potrebbe esserci qualche leverage 
+lev=hat(model.matrix(mod2))
+
+p=mod2$rank
+n=dim(clndata)[1]
+watchout_points_lev = lev[ which( lev > 2 * p/n ) ]
+watchout_ids_lev = seq_along( lev )[ which( lev > 2 * p/n ) ]
+plot( mod2$fitted.values, lev, ylab = "Leverages", main = "Plot of Leverages",
+      pch = 16, col = 'black' )
+points( mod2$fitted.values[ watchout_ids_lev ], watchout_points_lev, col = 'red', pch = 16 )
+#eh ci sono sei punti che ci rovinano la festa, next time vedremo se togliendoli cambia qualcosa
+
+#no idea di che vuol dire se <0
+AIC(mod2)
