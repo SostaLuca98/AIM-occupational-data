@@ -28,14 +28,18 @@ datireg$Voto_LM <- as.numeric(datireg$Voto_LM)
 datireg$Durata <- as.numeric(datireg$Durata)
 datireg$Retribuzione_PI <- as.numeric(datireg$Retribuzione_PI)
 
-reg <- lm(datireg$Retribuzione_PI ~ ., data=datireg)
+varlin <- datireg$Retribuzione_PI
+varlog <- log(datireg$Retribuzione_PI)
+reg <- lm( ~ ., data=datireg)
 summary(reg)
 
 slm1 <- step(reg, na.omit=TRUE, scope = . ~ .^2, nvmax = 4, trace = -1 )
 summary(slm1)
+shapiro.test(slm1$residuals)
 
 slm2 <- step(reg, na.omit=TRUE, trace = -1 )
 summary(slm2)
+shapiro.test(slm2$residuals)
 vif(slm1)
 
 anova(slm1, slm2)
