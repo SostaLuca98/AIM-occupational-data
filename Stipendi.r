@@ -30,7 +30,7 @@ datireg$Retribuzione_PI <- as.numeric(datireg$Retribuzione_PI)
 
 varlin <- datireg$Retribuzione_PI
 varlog <- log(datireg$Retribuzione_PI)
-reg <- lm( ~ ., data=datireg)
+reg <- lm(varlog ~ ., data=datireg)
 summary(reg)
 
 slm1 <- step(reg, na.omit=TRUE, scope = . ~ .^2, nvmax = 4, trace = -1 )
