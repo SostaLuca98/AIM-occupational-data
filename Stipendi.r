@@ -60,7 +60,7 @@ step.model <- train(datireg$Retribuzione_PI ~., data = datireg,
                     )
 step.model$results
 
-t=lm(formula = datireg$Retribuzione_PI ~ exp(Voto_LT:Voto_LM)  + Durata +
+t=lm(formula = datireg$Retribuzione_PI ~ Voto_LT:Voto_LM + Durata +
     Stage + Erasmus, data = datireg)
 summary(t)
 shapiro.test(t$residuals)
