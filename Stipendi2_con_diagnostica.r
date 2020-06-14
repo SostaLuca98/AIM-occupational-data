@@ -6,6 +6,7 @@
 library(tidyverse)
 library(caret)
 library(leaps)
+library(car)
 #library(MASS)
 
 #Pulisco la console, stampo directory, importo funzione di pulizia, importo dati
@@ -37,11 +38,13 @@ summary(reg)
 slm1 <- step(reg, na.omit=TRUE, scope = . ~ .^2, nvmax = 4, trace = -1 )
 summary(slm1)
 shapiro.test(slm1$residuals)
+vif(slm1)
+
 
 slm2 <- step(reg, na.omit=TRUE, trace = -1 )
 summary(slm2)
 shapiro.test(slm2$residuals)
-vif(slm1)
+vif(slm2)                               #Le covarianze tra i vari predittori sono sotto controllo
 
 #Diagnsotics on this model
 plot(slm2$fitted.values,hat(model.matrix(slm2)))
