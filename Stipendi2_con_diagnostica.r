@@ -28,9 +28,10 @@ datireg$Voto_LM <- as.numeric(datireg$Voto_LM)
 datireg$Durata <- as.numeric(datireg$Durata)
 datireg$Retribuzione_PI <- as.numeric(datireg$Retribuzione_PI)
 
+
 varlin <- datireg$Retribuzione_PI
 varlog <- log(datireg$Retribuzione_PI)
-reg <- lm(varlog ~ .-Retribuzione_PI, data=datireg)
+reg <- lm(varlog ~ .-Retribuzione_PI-dati_definitivi_id, data=datireg)
 summary(reg)
 
 slm1 <- step(reg, na.omit=TRUE, scope = . ~ .^2, nvmax = 4, trace = -1 )
@@ -50,6 +51,11 @@ lev=hat(model.matrix(slm2))
 bad_leverages=which(hat(model.matrix(slm2))>hmeans)
 datireg$dati_definitivi_id[bad_leverages] #to be controlled
 
+#Single out high studentized residuals
+stud = rstandard( slm2 )
+watchout_ids_stud = which( abs( stud ) > 2 )
+watchout_stud = stud[ watchout_ids_stud ]
+
 #We can check with boxplot and Cook's distance
 Cdist=cooks.distance(slm2)
 Cdist
@@ -64,7 +70,7 @@ plot( slm2$fitted.values, Cdist, pch = 16, xlab = 'Fitted values',
       ylab = 'Cooks Distance', main = 'Cooks Distance' )
 points( slm2$fitted.values[ watchout_ids_Cdist ], Cdist[ watchout_ids_Cdist ],
         col = 'green', pch = 16 )
-plot( slm2$fitted.values, slm2$residuals/(summary(slm2)$sigma*lev), pch = 16, xlab = 'Fitted values',
+plot( slm2$fitted.values, stud, pch = 16, xlab = 'Fitted values',
       ylab = 'Studentized Residuals', main = 'Studentized Residuals' )
 points( slm2$fitted.values[ watchout_ids_stud ], stud[ watchout_ids_stud ],
         col = 'pink', pch = 16 )
@@ -72,6 +78,7 @@ plot( slm2$fitted.values, lev, pch = 16, xlab = 'Fitted values',
       ylab = 'Leverages', main = 'Leverages' )
 points( slm2$fitted.values[ bad_leverages ], lev[ bad_leverages ],
         col = 'orange', pch = 16 )
+
 
 #remove suspect data in Cook's distance
 id_to_keep = !( 1:n %in% watchout_ids_Cdist )
