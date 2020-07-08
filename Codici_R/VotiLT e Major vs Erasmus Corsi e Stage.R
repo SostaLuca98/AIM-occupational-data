@@ -25,9 +25,9 @@ dati1 <- PuliziaNA(database, c(3, 26))
 VotoSE <- dati1[which (dati1$Erasmus == 1), 3 ]
 VotoNE <- dati1[which (dati1$Erasmus == 0), 3 ]
 
-#Controlo la normalità dei dati graficamente
+#Controlo la normalitÃ  dei dati graficamente
 par( mfrow = c(1,2) )
-qqnorm(VotoSE, datax=T, main = 'Sì Erasmus', xlab = "", ylab = "", col =my_col[4])
+qqnorm(VotoSE, datax=T, main = 'SÃ¬ Erasmus', xlab = "", ylab = "", col =my_col[4])
 qqnorm(VotoNE, datax=T, main = 'No Erasmus', xlab = "", ylab = "", col =my_col[5])
 
 #effettuo il test di shapiro sui dati separati
@@ -39,12 +39,12 @@ var.test(dati1$Voto_LT ~ dati1$Erasmus)
 
 #Controlliamo che le due abbiano distribuzioni confrontabili
 par( mfrow = c(1,1) )
-qqplot(VotoSE, VotoNE, xlab = "Sì Erasmus", ylab = "No Erasmus", col = my_col[7])
+qqplot(VotoSE, VotoNE, xlab = "SÃ¬ Erasmus", ylab = "No Erasmus", col = my_col[7])
 abline(0,1)
 
 #Confrotiamo Graficamente i due set dei dati
 par( mfrow = c(1,1) )
-boxplot(dati1$Voto_LT ~ as.numeric(factor(dati1$Erasmus)), col = my_col, xlab= 'Erasmus', ylab='Voto Triennale', names = c('No Erasmus', 'Sì Erasmus'))
+boxplot(dati1$Voto_LT ~ as.numeric(factor(dati1$Erasmus)), col = my_col, xlab= 'Erasmus', ylab='Voto Triennale', names = c('No Erasmus', 'SÃ¬ Erasmus'))
 
 #Effettuiamo u test ANOVA
 g <- aov(dati1$Voto_LT ~ as.numeric(factor(dati1$Erasmus))) 
@@ -66,7 +66,7 @@ cat
 par( mfrow = c(1,3) )
 barplot( cat[1,] + cat[2,] , col = my_col[1], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'Totale')
 barplot( cat[1,]           , col = my_col[2], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'No Erasmus')
-barplot( cat[2,]           , col = my_col[3], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'Sì Erasmus')
+barplot( cat[2,]           , col = my_col[3], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'SÃ¬ Erasmus')
 
 
 
@@ -79,9 +79,9 @@ dati1 <- PuliziaNA(database, c(3, 25))
 VotoSE <- dati1[which (dati1$Stage == 1), 3 ]
 VotoNE <- dati1[which (dati1$Stage == 0), 3 ]
 
-#Controlo la normalità dei dati graficamente
+#Controlo la normalitÃ  dei dati graficamente
 par( mfrow = c(1,2) )
-qqnorm(VotoSE, datax=T, main = 'Sì Stage', xlab = "", ylab = "", col =my_col[4])
+qqnorm(VotoSE, datax=T, main = 'SÃ¬ Stage', xlab = "", ylab = "", col =my_col[4])
 qqnorm(VotoNE, datax=T, main = 'No Stage', xlab = "", ylab = "", col =my_col[5])
 
 #effettuo il test di shapiro sui dati separati
@@ -90,7 +90,7 @@ shapiro.test(VotoNE)
 
 #Controlliamo che le due abbiano distribuzioni confrontabili
 par( mfrow = c(1,1) )
-qqplot(VotoSE, VotoNE, xlab = "Sì Stage", ylab = "No Stage", col = my_col[7])
+qqplot(VotoSE, VotoNE, xlab = "SÃ¬ Stage", ylab = "No Stage", col = my_col[7])
 abline(0,1)
 
 #Confrontiamo le varianze dei due gruppi, devono essere simili
@@ -98,7 +98,7 @@ var.test(dati1$Voto_LT ~ dati1$Stage)
 
 #Confrotiamo Graficamente i due set dei dati
 par( mfrow = c(1,1) )
-boxplot(dati1$Voto_LT ~ as.numeric(factor(dati1$Stage)), col = my_col, xlab= 'Stage', ylab='Voto Triennale', names = c('No Stage', 'Sì Stage'))
+boxplot(dati1$Voto_LT ~ as.numeric(factor(dati1$Stage)), col = my_col, xlab= 'Stage', ylab='Voto Triennale', names = c('No Stage', 'SÃ¬ Stage'))
 
 #Effettuiamo u test ANOVA
 g <- aov(dati1$Voto_LT ~ as.numeric(factor(dati1$Stage))) 
@@ -121,7 +121,7 @@ cat
 par( mfrow = c(1,3) )
 barplot( cat[1,] + cat[2,] , col = my_col[1], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'Totale')
 barplot( cat[1,]           , col = my_col[2], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'No Stage')
-barplot( cat[2,]           , col = my_col[3], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'Sì Stage')
+barplot( cat[2,]           , col = my_col[3], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'SÃ¬ Stage')
 
 
 ##Vogliamo confrontare una variabile continua con una categorica
@@ -133,9 +133,9 @@ dati1 <- PuliziaNA(database, c(3, 27))
 VotoSE <- dati1[which (dati1$Corsi_Extra == 1), 3 ]
 VotoNE <- dati1[which (dati1$Corsi_Extra == 0), 3 ]
 
-#Controlo la normalità dei dati graficamente
+#Controlo la normalitÃ  dei dati graficamente
 par( mfrow = c(1,2) )
-qqnorm(VotoSE, datax=T, main = 'Sì Corsi_Extra', xlab = "", ylab = "", col =my_col[4])
+qqnorm(VotoSE, datax=T, main = 'SÃ¬ Corsi_Extra', xlab = "", ylab = "", col =my_col[4])
 qqnorm(VotoNE, datax=T, main = 'No Corsi_Extra', xlab = "", ylab = "", col =my_col[5])
 
 #Effettuo il test di shapiro sui dati separati
@@ -144,7 +144,7 @@ shapiro.test(VotoNE)
 
 #Controlliamo che le due abbiano distribuzioni confrontabili
 par( mfrow = c(1,1) )
-qqplot(VotoSE, VotoNE, xlab = "Sì Corsi_Extra", ylab = "No Corsi Extra", col = my_col[7])
+qqplot(VotoSE, VotoNE, xlab = "SÃ¬ Corsi_Extra", ylab = "No Corsi Extra", col = my_col[7])
 abline(0,1)
 
 #Confrontiamo le varianze dei due gruppi, devono essere simili
@@ -152,7 +152,7 @@ var.test(dati1$Voto_LT ~ dati1$Corsi_Extra)
 
 #Confrotiamo Graficamente i due set dei dati
 par( mfrow = c(1,1) )
-boxplot(dati1$Voto_LT ~ as.numeric(factor(dati1$Corsi_Extra)), col = my_col, xlab= 'Corsi_Extra', ylab='Voto Triennale', names = c('No Corsi_Extra', 'Sì Corsi_Extra'))
+boxplot(dati1$Voto_LT ~ as.numeric(factor(dati1$Corsi_Extra)), col = my_col, xlab= 'Corsi_Extra', ylab='Voto Triennale', names = c('No Corsi_Extra', 'SÃ¬ Corsi_Extra'))
 
 #Effettuiamo u test ANOVA
 g <- aov(dati1$Voto_LT ~ as.numeric(factor(dati1$Corsi_Extra))) 
@@ -175,7 +175,7 @@ cat
 par( mfrow = c(1,3) )
 barplot( cat[1,] + cat[2,] , col = my_col[1], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'Totale')
 barplot( cat[1,]           , col = my_col[2], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'No Corsi_Extra')
-barplot( cat[2,]           , col = my_col[3], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'Sì Corsi_Extra')
+barplot( cat[2,]           , col = my_col[3], ylab='Numero Studenti',  names = c('Finanza', 'Statistica', 'Calcolo'), main = 'SÃ¬ Corsi_Extra')
 
 
 
