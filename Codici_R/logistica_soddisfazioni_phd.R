@@ -50,7 +50,7 @@ for ( k in 1 : lens )
   ascissa_roc[ k ] = sum( classification[ which( Sodd_bin == 0 ) ] == 1 ) /
     length( which( Sodd_bin == 0 ) )
   
-  plot( ascissa_roc, ordinata_roc, type = "l", xlab = "1 - Specificit‡", ylab = "Sensitivit‡",
+  plot( ascissa_roc, ordinata_roc, type = "l", xlab = "1 - Specificit√†", ylab = "Sensitivit√†",
         main = "Curva ROC", lwd = 2, col = 'darkblue', ylim = c( 0, 1 ), xlim = c( 0, 1 ) )
   abline( h = c( 0, 1 ), v = c( 0, 1 ), lwd = 1, lty = 2, col = 'red' )
   abline( a = 0, b = 1, lty = 2, col = 'black' )
